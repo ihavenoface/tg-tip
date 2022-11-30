@@ -1,0 +1,11 @@
+node_modules
+.idea
+*.db
+*.sqlite
+/coverage/
+.env*
+migrate.json
+*.js
+/dist/
+/old/
+/reports/

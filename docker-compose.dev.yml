@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  tipbot:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - $PWD:/app
+
+  db:
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+
+  peercoind:
+    ports:
+      - "9901:9901"
+      - "9903:9903"
+      - "38332:38332"
+      - "18443:18443"
+      - "29000:29000"

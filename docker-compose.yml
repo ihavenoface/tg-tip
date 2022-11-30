@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  tipbot:
+    restart: always
+    build:
+      context: .
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    environment:
+      NODE_ENV: "${NODE_ENV:-development}"
+      CHAIN: "${CHAIN:-main}"
+      TELEGRAM_TOKEN: "${TELEGRAM_TOKEN}"
+    volumes:
+      - $PWD/src/mount:/app/mount
+    deploy:
+      placement:
+        constraints:
+          - node.hostname==something
+
+  db:
+    image: postgres:14.5-alpine
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    deploy:
+      placement:
+        constraints:
+          - node.hostname==something
+
+  peercoind:
+    image: peercoin/peercoind:0.11.7
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+    volumes:
+      - peercoind-data:/data
+    environment:
+      HD_SEED: "${HD_SEED}"
+    command: >
+      -rpcauth=tipbot:c68b6555c71641648f399051b13d79a3$$21b1bee34aaaad30e1f207280146e2295ea1deefd365fa62c9433a36731f40e6
+      -zmqpubhashtx=tcp://0.0.0.0:29000
+      -zmqpubhashblock=tcp://0.0.0.0:29000
+      -minting=0
+      -server
+      -rpcallowip=0.0.0.0/0
+      -rpcbind=0.0.0.0
+      -printtoconsole
+      -chain=${CHAIN:-main}
+    deploy:
+      placement:
+        constraints:
+          - node.hostname==something
+
+volumes:
+  postgres-data:
+  peercoind-data:

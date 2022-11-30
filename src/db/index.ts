@@ -1,0 +1,31 @@
+import { Sequelize } from 'sequelize-typescript'
+import Config from './models/config.js'
+import User from './models/user.js'
+import Post from './models/post.js'
+import CallbackQuery from './models/callbackquery.js'
+import WalletAddress from './models/walletaddress.js'
+import Tip from './models/tip.js'
+import Transaction from './models/transaction.js'
+import InlineQuery from './models/inlinequery.js'
+
+const sequelize = new Sequelize({
+  host: 'db',
+  database: 'postgres',
+  username: 'postgres',
+  password: undefined,
+  dialect: 'postgres',
+  models: [Config, User, CallbackQuery, InlineQuery, Post, Tip, Transaction, WalletAddress],
+  logging: false
+})
+
+export {
+  sequelize as default,
+  Sequelize,
+  CallbackQuery,
+  InlineQuery,
+  Post,
+  Tip,
+  Transaction,
+  User,
+  WalletAddress
+}
