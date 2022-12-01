@@ -228,7 +228,7 @@ export const parseIncomingTransaction = async (transaction: any): Promise<void> 
               [{
                 text: i18next.t('lookupOnExplorer', { lng: lastPost != null ? lastPost.message.from?.language_code : undefined }),
                 // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-                url: `https://${g.CHAIN === 'main' ? '' : 't'}blockbook.peercoin.net/tx/${transaction?.walletTxId}`
+                url: `https://chainz.cryptoid.info/ppc${g.CHAIN === 'main' ? '' : '-test'}/tx.dws?${transaction?.walletTxId}.htm`
               }]
             ]
           }
@@ -241,6 +241,7 @@ export const parseIncomingTransaction = async (transaction: any): Promise<void> 
           }
         } else {
           const message = await bot.telegram.editMessageText(post.chatId, post.messageId, undefined, text, extra)
+          // todo update only if we got a response
           await post.update({ message })
         }
       } catch (e) {
