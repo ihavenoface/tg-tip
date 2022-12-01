@@ -13,7 +13,7 @@ export default async (walletTx: any, walletAddress: string, walletTxId: string, 
       amount,
       fee,
       // fromUser, // todo: check what this is supposed to be
-      userId: fromUser.id,
+      userId: fromUser.userId,
       transactionTime: new Date(walletTx.time * 1000),
       rawTxRpc: walletTx,
       status: 'SENT' // todo change to staged, so that we can store transactions that have been pre-constructed. more of a fail-safe (in case sendrawtx goes wrong) than anything. also lets us check if our validation matches before sending
