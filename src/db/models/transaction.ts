@@ -44,7 +44,7 @@ export default class Transaction extends Model {
 
   @IsInt
   @IsNumeric
-  @Min(1)
+  @Min(1) // todo
   @Max(g.MAX_COIN)
   @Column(DataType.BIGINT)
   get amount (): BigNumber {
@@ -53,7 +53,7 @@ export default class Transaction extends Model {
 
   @IsInt
   @IsNumeric
-  @Min(g.CENT)
+  @Min(100) // todo
   @Max(g.COIN * 20) // todo
   @Column(DataType.BIGINT)
   get fee (): BigNumber {
