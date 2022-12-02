@@ -16,7 +16,7 @@ export default async (callbackQuery: any): Promise<CallbackQuery | null> => {
     return await CallbackQuery.create({
       id: callbackQuery.id,
       userId: callbackQuery.from.id,
-      postId: post.id,
+      postId: post.postId,
       // @ts-expect-error
       rootPostId: post.rootPostId,
       message: callbackQuery

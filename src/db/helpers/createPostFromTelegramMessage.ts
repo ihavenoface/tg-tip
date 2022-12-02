@@ -27,7 +27,7 @@ export default async (message: TextMessage | PhotoMessage, root?: Post): Promise
     // [post, created]
     const [post] = await Post.findOrCreate({
       where: {
-        id: `${message.chat.id}:${message.message_id}`
+        postId: `${message.chat.id}:${message.message_id}`
       },
       defaults: {
         userId: user?.userId,

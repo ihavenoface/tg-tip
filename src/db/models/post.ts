@@ -7,7 +7,6 @@ import {
   HasMany,
   Is,
   Model,
-  PrimaryKey,
   Table,
   Unique
 } from 'sequelize-typescript'
@@ -21,9 +20,8 @@ export default class Post extends Model {
   @Is(/\d+:\d+/)
   @AllowNull(false)
   @Unique
-  @PrimaryKey
   @Column
-  declare id: string
+  declare postId: string
 
   @Column('varchar generated always as (message::jsonb -> \'from\' ->> \'username\') stored')
   readonly name: string | null
@@ -37,8 +35,14 @@ export default class Post extends Model {
   @Column('integer generated always as ((message::jsonb ->> \'message_id\')::int) stored')
   readonly messageId: number
 
-  @Column('integer generated always as ((message::jsonb -> \'chat\' ->> \'id\')::int) stored')
-  readonly chatId: number
+  @Column('integer generated always as ((message::jsonb -> \'chat\' ->> \'id\')::bigint) stored')
+  get chatId (): number {
+    return parseInt(this.getDataValue('chatId'))
+  }
+
+  set chatId (value: number) {
+    throw new Error('Can\'t set `chatId` directly.')
+  }
 
   @Column('text generated always as (message::jsonb ->> \'text\') stored')
   readonly text: string
