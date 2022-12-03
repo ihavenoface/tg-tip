@@ -21,7 +21,7 @@ QLcYwK96u6N1UbpKFzb-WR79jdGPXR3fReJ4ganpO8s=
 
 export const walletClient = new Core({
   version: '0.22.0',
-  host: 'peercoind', // todo: get from env
+  host: g.WALLET_HOST, // todo: get from env
   port: g.PORT,
   username: 'ppcuser', // todo: get from env
   password: 'ppcpass' // todo: get from env

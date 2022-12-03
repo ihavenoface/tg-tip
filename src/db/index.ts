@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript'
+import g from '../static/global.js'
 import Config from './models/config.js'
 import User from './models/user.js'
 import Post from './models/post.js'
@@ -9,7 +10,7 @@ import Transaction from './models/transaction.js'
 import InlineQuery from './models/inlinequery.js'
 
 const sequelize = new Sequelize({
-  host: 'db',
+  host: g.DB_HOST,
   database: 'postgres',
   username: 'postgres',
   password: undefined,

@@ -1,6 +1,7 @@
 // import rateLimit from 'telegraf-ratelimit'
-// import { walletClient } from './wallet.js'
+import { walletClient } from './wallet.js'
 import { Telegraf } from 'telegraf'
+import g from './static/global.js'
 import * as db from './db/index.js'
 import loadLocales from './locales/loadLocales.js'
 import Balance from './class/command/balance.js'
@@ -34,19 +35,23 @@ bot.use(rateLimit(limitConfig))
 void (async () => {
   await db.default.sync({ force: false })
   await loadLocales()
-  /*
   let walletLoaded = false
   try {
     await walletClient.createWallet('tipbot')
+    await walletClient.setHdSeed(true, g.HD_SEED)
+    await walletClient.rescanBlockchain()
     walletLoaded = true
-  } catch (e) {}
+  } catch (e) {
+    console.log(e)
+  }
   if (!walletLoaded) {
     try {
       await walletClient.loadWallet('tipbot')
-    } catch (e) {}
+    } catch (e) {
+      console.log(e)
+    }
   }
   await walletClient.getWalletInfo()
-  */
   await listenZmq()
   initDone = true
 })()

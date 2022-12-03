@@ -2,9 +2,12 @@ import * as networks from './networks.js'
 // todo probably move around stuff here. we're better off importing from outside for the most part
 
 let NETWORK, PORT
-const { CHAIN } = process.env
+const { CHAIN, HD_SEED, DB_HOST, WALLET_HOST } = process.env
 
-if (CHAIN !== null) {
+if (CHAIN === null) {
+  // todo we can probably guess from NODE_ENV which chain we're on
+  throw new Error('CHAIN is not configured. Go check your environment variables.')
+} else {
   switch (CHAIN) {
     case 'main':
       NETWORK = networks.peercoin
@@ -18,15 +21,19 @@ if (CHAIN !== null) {
       NETWORK = networks.regtest
       PORT = 18443
   }
-} else {
-  // todo we can probably guess from NODE_ENV which chain we're on
-  throw new Error('CHAIN is not configured. Go check your environment variables.')
+}
+
+if (HD_SEED === null) {
+  throw new Error('HD_SEED is not configured. Go check your environment variables.')
 }
 
 const COIN = 1000000
 
 export default {
   CHAIN,
+  HD_SEED,
+  DB_HOST,
+  WALLET_HOST,
   NETWORK,
   PORT,
   COIN_NAME: 'Peercoin',

@@ -14,6 +14,9 @@ services:
       NODE_ENV: "${NODE_ENV:-development}"
       CHAIN: "${CHAIN:-main}"
       TELEGRAM_TOKEN: "${TELEGRAM_TOKEN}"
+      HD_SEED: "${HD_SEED}"
+      DB_HOST: db
+      WALLET_HOST: peercoind
     command:
       - index.js
     volumes:
@@ -41,7 +44,7 @@ services:
           - node.hostname==something
 
   peercoind:
-    image: peercoin/peercoind:0.11.7
+    image: peercoin/peercoind:release-0.12
     restart: always
     logging:
       driver: "json-file"
@@ -50,8 +53,6 @@ services:
         max-size: "10m"
     volumes:
       - peercoind-data:/data
-    environment:
-      HD_SEED: "${HD_SEED}"
     command: >
       -rpcauth=tipbot:c68b6555c71641648f399051b13d79a3$$21b1bee34aaaad30e1f207280146e2295ea1deefd365fa62c9433a36731f40e6
       -zmqpubhashtx=tcp://0.0.0.0:29000
