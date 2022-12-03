@@ -37,7 +37,7 @@ void (async () => {
   await loadLocales()
   let walletLoaded = false
   try {
-    await walletClient.createWallet('tipbot')
+    await walletClient.createWallet('tipbot', false, false, null, false, false, true)
     await walletClient.setHdSeed(true, g.HD_SEED)
     await walletClient.rescanBlockchain()
     walletLoaded = true
