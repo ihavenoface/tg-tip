@@ -57,10 +57,12 @@ void (async () => {
   await walletClient.getWalletInfo()
   await listenZmq()
   if (g.WEBHOOK_DOMAIN === undefined) throw new Error('WEBHOOK_DOMAIN is not configured. Go check your environment variables.')
+  // todo: this is not using https yet
   const webhook = await bot.createWebhook({ domain: g.WEBHOOK_DOMAIN, secret_token: crypto.randomBytes(64).toString('hex') })
   app.use(webhook as any)
   app.listen(3000, () => console.log('Listening on port', 3000))
   initDone = true
+  await bot.launch()
 })()
 
 const commands = [Balance, Deposit, Tip, Withdraw].map(klass => {
@@ -155,7 +157,6 @@ bot.on('inline_query', async (ctx) => {
 })
 */
 
-void bot.launch()
 /*
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
