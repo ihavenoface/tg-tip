@@ -57,7 +57,8 @@ void (async () => {
   await walletClient.getWalletInfo()
   await listenZmq()
   if (g.WEBHOOK_DOMAIN === undefined) throw new Error('WEBHOOK_DOMAIN is not configured. Go check your environment variables.')
-  app.use(await bot.createWebhook({ domain: g.WEBHOOK_DOMAIN, secret_token: crypto.randomBytes(64).toString('hex') }))
+  const webhook = await bot.createWebhook({ domain: g.WEBHOOK_DOMAIN, secret_token: crypto.randomBytes(64).toString('hex') })
+  app.use(webhook as any)
   app.listen(3000, () => console.log('Listening on port', 3000))
   initDone = true
 })()
