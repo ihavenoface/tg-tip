@@ -17,6 +17,9 @@ services:
       HD_SEED: "${HD_SEED}"
       DB_HOST: db
       WALLET_HOST: peercoind
+      WEBHOOK_DOMAIN: "${WEBHOOK_DOMAIN}"
+    ports:
+      - "${WEBOOK_PORT}:3000"
     command:
       - index.js
     volumes:

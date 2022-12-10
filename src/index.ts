@@ -1,7 +1,9 @@
 // import rateLimit from 'telegraf-ratelimit'
 import { walletClient } from './wallet.js'
 import { Telegraf } from 'telegraf'
+import express from 'express'
 import g from './static/global.js'
+import * as crypto from 'crypto'
 import * as db from './db/index.js'
 import loadLocales from './locales/loadLocales.js'
 import Balance from './class/command/balance.js'
@@ -23,6 +25,7 @@ if (process.env.TELEGRAM_TOKEN == null) {
 }
 
 const bot = new Telegraf(process.env.TELEGRAM_TOKEN)
+const app = express()
 /*
 const limitConfig = {
   window: 3000,
@@ -53,6 +56,9 @@ void (async () => {
   }
   await walletClient.getWalletInfo()
   await listenZmq()
+  if (g.WEBHOOK_DOMAIN === undefined) throw new Error('WEBHOOK_DOMAIN is not configured. Go check your environment variables.')
+  app.use(await bot.createWebhook({ domain: g.WEBHOOK_DOMAIN, secret_token: crypto.randomBytes(64).toString('hex') }))
+  app.listen(3000, () => console.log('Listening on port', 3000))
   initDone = true
 })()
 

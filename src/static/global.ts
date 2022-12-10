@@ -2,7 +2,7 @@ import * as networks from './networks.js'
 // todo probably move around stuff here. we're better off importing from outside for the most part
 
 let NETWORK, PORT
-const { CHAIN, HD_SEED, DB_HOST, WALLET_HOST } = process.env
+const { CHAIN, HD_SEED, DB_HOST, WALLET_HOST, WEBHOOK_DOMAIN } = process.env
 
 if (CHAIN === null) {
   // todo we can probably guess from NODE_ENV which chain we're on
@@ -27,6 +27,10 @@ if (HD_SEED === null) {
   throw new Error('HD_SEED is not configured. Go check your environment variables.')
 }
 
+if (WEBHOOK_DOMAIN === null) {
+  throw new Error('WEBHOOK_DOMAIN is not configured. Go check your environment variables.')
+}
+
 const COIN = 1000000
 
 export default {
@@ -34,6 +38,7 @@ export default {
   HD_SEED,
   DB_HOST,
   WALLET_HOST,
+  WEBHOOK_DOMAIN,
   NETWORK,
   PORT,
   COIN_NAME: 'Peercoin',
