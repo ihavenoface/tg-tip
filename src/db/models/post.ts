@@ -35,7 +35,7 @@ export default class Post extends Model {
   @Column('integer generated always as ((message::jsonb ->> \'message_id\')::int) stored')
   readonly messageId: number
 
-  @Column('integer generated always as ((message::jsonb -> \'chat\' ->> \'id\')::bigint) stored')
+  @Column('bigint generated always as ((message::jsonb -> \'chat\' ->> \'id\')::bigint) stored')
   get chatId (): number {
     return parseInt(this.getDataValue('chatId'))
   }
